@@ -1,0 +1,4 @@
+github.com/kr/beanstalk v0.0.0-20180818045031-cae1762e4858 h1:kkNVQqyYyI0SsW9sOUEAKiLzoJGzW1ZVoYQCUmrAowE=
+github.com/kr/beanstalk v0.0.0-20180818045031-cae1762e4858/go.mod h1:S640fId9Ag4k2hh6Hwwj62pMSZqfMtg/kfKPeAOhET8=
+github.com/mikegleasonjr/workers v0.0.0-20160423133324-427fa99d3a43 h1:CStkQy3rU2bHDL3TNozboz5Yb0TrZ89O0wTwtW/gb1c=
+github.com/mikegleasonjr/workers v0.0.0-20160423133324-427fa99d3a43/go.mod h1:3zlepftPyyaWX/07Hn7dZ6QyxSVZzQb9sYaXToSxkfU=
