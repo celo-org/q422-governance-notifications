@@ -33,7 +33,7 @@ function process_message() {
         return 1
     fi
 
-    transformed=$(echo "$event" | jq --arg id "$event_id" --arg endpoint "$endpoint" --arg subscriber "$subscriber" '{subscriber: $subscriber|tonumber, endpoint: $endpoint, id: $id params: .}')
+    transformed=$(echo "$event" | jq --arg id "$event_id" --arg endpoint "$endpoint" --arg subscriber "$subscriber" '{subscriber: $subscriber|tonumber, endpoint: $endpoint, id: $id, params: .}')
 
     echo "processed message : $transformed"
 
