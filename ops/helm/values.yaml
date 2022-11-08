@@ -16,6 +16,13 @@ processor:
     tag: "latest"
   readDelay: 1 
 
+monitor:
+  image:
+    repository: agaveapi/beanstalkd-console
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
