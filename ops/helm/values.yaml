@@ -8,6 +8,14 @@ beanstalkd:
     tag: "latest"
   port: 11300
 
+processor:
+  image:
+    repository: gcr.io/celo-testnet-production/event-processor-q422
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+  readDelay: 1 
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
