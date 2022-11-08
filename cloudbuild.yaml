@@ -5,6 +5,7 @@ steps:
           "--destination=gcr.io/$PROJECT_ID/event-processor-q422:$COMMIT_SHA",
           "--dockerfile", "processor/Dockerfile",
           "--context", "dir://processor"
+    ]
     waitFor: ["-"]
 options:
     machineType: 'N1_HIGHCPU_32'
