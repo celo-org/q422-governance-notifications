@@ -1,0 +1,11 @@
+steps:
+  - name: "gcr.io/kaniko-project/executor:v1.6.0"
+    args: [
+          "--cache=true",
+          "--destination=gcr.io/$PROJECT_ID/event-processor-q422:$COMMIT_SHA",
+          "--dockerfile", "processor/Dockerfile",
+          "--context", "dir://processor"
+    waitFor: ["-"]
+options:
+    machineType: 'N1_HIGHCPU_32'
+timeout: 1200s
