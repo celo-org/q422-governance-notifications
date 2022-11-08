@@ -38,7 +38,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
           - name: BEANSTALK_HOST
-            value: "{{ include "helm.fullname" . }}-beanstalkd"
+            value: "{{ .Values.service.fqdn }}"
           - name: BEANSTALK_PORT
             value: "{{ .Values.beanstalkd.port }}"
           - name: BEANSTALK_OUT_TUBE

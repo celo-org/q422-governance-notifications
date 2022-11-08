@@ -57,7 +57,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 6080
+  fqdn: rc1staging-governance-notifications-beanstalkd.event-notifications.svc.cluster.local
 
 ingress:
   enabled: false

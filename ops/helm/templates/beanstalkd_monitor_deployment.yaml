@@ -37,12 +37,12 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: 80
             initialDelaySeconds: 300
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: 80
             initialDelaySeconds: 300
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -50,7 +50,7 @@ spec:
           - name: BEANSTALKD_PORT
             value: "{{ .Values.beanstalkd.port }}"
           - name: BEANSTALKD_HOST
-            value: "{{ include "helm.fullname" . }}-beanstalkd"
+            value: "{{ .Values.service.fqdn }}"
           - name: APACHE_PORT
             value: "80"
       {{- with .Values.nodeSelector }}
