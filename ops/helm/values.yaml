@@ -8,6 +8,7 @@ beanstalkd:
     tag: "latest"
   port: 11300
   replicaCount: 1
+  name: beanstalkd
 
 processor:
   name: event-processor
