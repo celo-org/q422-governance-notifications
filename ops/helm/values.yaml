@@ -7,21 +7,26 @@ beanstalkd:
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
   port: 11300
+  replicaCount: 1
 
 processor:
+  name: event-processor
   image:
     repository: gcr.io/celo-testnet-production/event-processor-q422
     pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
   readDelay: 1 
+  replicaCount: 0
 
 monitor:
+  name: beanstalkd-monitor
   image:
     repository: agaveapi/beanstalkd-console
     pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
+  replicaCount: 1
 
 imagePullSecrets: []
 nameOverride: ""

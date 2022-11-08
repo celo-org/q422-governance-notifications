@@ -4,7 +4,6 @@ metadata:
   name: {{ include "helm.fullname" . }}-beanstalkd
   labels:
     {{- include "helm.labels" . | nindent 4 }}
-    component: beanstalkd
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -20,6 +19,7 @@ spec:
       {{- end }}
       labels:
         {{- include "helm.selectorLabels" . | nindent 8 }}
+        component: beanstalkd
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -35,19 +35,19 @@ spec:
           image: "{{ .Values.beanstalkd.image.repository }}:{{ .Values.beanstalkd.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.beanstalkd.image.pullPolicy }}
           ports:
-            - name: http
+            - name: beanstalkd
               containerPort: {{ .Values.beanstalkd.port }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 300
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 300
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          #   initialDelaySeconds: 300
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          #   initialDelaySeconds: 300
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
