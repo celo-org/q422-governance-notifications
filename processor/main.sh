@@ -27,6 +27,12 @@ function process_message() {
     subscriber=$((1 + $RANDOM % 1000000))
     event=$(./beanstalkd-cli pop --host "$beanstalk_host" --port "$beanstalk_port")
 
+    if [[ -z "$event" ]] 
+    then
+        echo "No messages to process"
+        return 1
+    fi
+
     transformed=$(echo "$event" | jq --arg id "$event_id" --arg endpoint "$endpoint" --arg subscriber "$subscriber" '{subscriber: $subscriber|tonumber, endpoint: $endpoint, id: $id params: .}')
 
     echo "processed message : $transformed"
