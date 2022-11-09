@@ -27,7 +27,7 @@ defmodule TelegramService.Bot do
           check_timer: Process.send_after(self(), :check, refresh_period)
         }
 
-        {:ok, state}
+        {:ok, state, {:continue, :setup_commands}}
 
       error ->
         Logger.error("Bot failed to self-identify: #{inspect(error)}")
@@ -35,25 +35,56 @@ defmodule TelegramService.Bot do
     end
   end
 
+  def handle_continue(:setup_commands, state = %{bot_key: key}) do
+    remove_old_commands(key)
+    register_commands(key)
+
+    {:noreply, state}
+  end
+
+  def remove_old_commands(key) do
+    {:ok, _} = Telegram.Api.request(key, "deleteMyCommands")
+  end
+
+  def register_commands(key) do
+    commands =
+      %{
+        commands: [
+          %{
+            command: "subscribe",
+            description: "Subscribe to Celo mainnet governance proposal status changes"
+          },
+          %{command: "unsubscribe", description: "Stop notifications"}
+        ]
+      }
+
+    {:ok, _} = Telegram.Api.request(key, "setMyCommands", commands)
+  end
+
   @impl GenServer
-  def handle_info(:check, %{bot_key: key, last_seen: last_seen, check_timer: timer, refresh_period: refresh_period} = state) do
+  def handle_info(
+        :check,
+        %{bot_key: key, last_seen: last_seen, check_timer: timer, refresh_period: refresh_period} =
+          state
+      ) do
     Process.cancel_timer(timer)
 
-    last_update = case Telegram.Api.request(key, "getUpdates", offset: last_seen + 1, timeout: 30) do
-      {:ok, []} ->
-        # no messages
-        last_seen
+    last_update =
+      case Telegram.Api.request(key, "getUpdates", offset: last_seen + 1, timeout: 30) do
+        {:ok, []} ->
+          # no messages
+          last_seen
 
-      {:ok, messages} ->
-        #process messages and find the max update_id for next poll
-        messages
-        |> Enum.map(fn message ->
-          {:ok, _} = Handler.handle_message(message)
+        {:ok, messages} ->
+          # process messages and find the max update_id for next poll
+          messages
+          |> Enum.map(fn message ->
+            {:ok, _} = Handler.handle_message(message)
 
-          message["update_id"]
-        end)
-        |> Enum.max()
-    end
+            message["update_id"]
+          end)
+          |> Enum.max()
+      end
 
     new_timer = Process.send_after(self(), :check, refresh_period)
 

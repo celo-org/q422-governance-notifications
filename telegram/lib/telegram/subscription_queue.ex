@@ -46,11 +46,11 @@ defmodule TelegramService.SubscriptionQueue do
   end
 
   def subscribe(chat_id, options \\ %{}) do
-    GenServer.cast(__MODULE__, {:subscribe,chat_id, options})
+    GenServer.cast(__MODULE__, {:subscribe, chat_id, options})
   end
 
   def unsubscribe(chat_id, options \\ %{}) do
-    GenServer.cast(__MODULE__, {:unsubscribe,chat_id, options})
+    GenServer.cast(__MODULE__, {:unsubscribe, chat_id, options})
   end
 
   defp format_message(action, chat_id, meta \\ %{}) do
@@ -59,8 +59,10 @@ defmodule TelegramService.SubscriptionQueue do
       platform: "telegram",
       platform_meta: meta,
       action: action,
-      contract_address_hash: "0xd533ca259b330c7a88f74e000a3faea2d63b7972", #governance proxy
-      event_topic: "0x1bfe527f3548d9258c2512b6689f0acfccdd0557d80a53845db25fc57e93d8fe" #proposal queued
+      # governance proxy
+      contract_address_hash: "0xd533ca259b330c7a88f74e000a3faea2d63b7972",
+      # proposal queued
+      event_topic: "0x1bfe527f3548d9258c2512b6689f0acfccdd0557d80a53845db25fc57e93d8fe"
     }
     |> Jason.encode!()
   end

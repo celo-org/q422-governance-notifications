@@ -30,7 +30,9 @@ defmodule TelegramService.MessageHandler do
   }
 
   """
-  def handle_message(%{"message" => %{"chat" => %{"id" => chat_id}, "from" => from, "text" => body}}) do
+  def handle_message(%{
+        "message" => %{"chat" => %{"id" => chat_id}, "from" => from, "text" => body}
+      }) do
     Logger.info("Received message from: #{from["username"]} - #{body}")
 
     case get_response(body) do
@@ -53,7 +55,16 @@ defmodule TelegramService.MessageHandler do
         Reply.send(chat_id, msg)
         result
 
-      {:ok, _} = result -> result
+      {:ok, :start} = result ->
+        Reply.send(
+          chat_id,
+          "Hey! 👋 send /subscribe to get notifications on Celo mainnet governance proposals!"
+        )
+
+        result
+
+      {:ok, _} = result ->
+        result
     end
   end
 
@@ -62,7 +73,9 @@ defmodule TelegramService.MessageHandler do
   def get_response("/subscribe" <> _rest), do: {:ok, :subscribe}
   def get_response("/unsubscribe" <> _rest), do: {:ok, :unsubscribe}
   def get_response("/echo " <> _rest), do: {:ok, :echo}
+  def get_response("/start" <> _rest), do: {:ok, :start}
   def get_response("sup" <> _rest), do: {:ok, :random}
+
   def get_response(msg) do
     {:ok, nil}
   end
