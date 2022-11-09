@@ -5,18 +5,29 @@
 
 Starting a notification system for contract events, namely governance proposals.
 
-## Plan
 
-1. Create beanstalkd instance
-2. Publish raw contract events to it
-3. Convert events to notification jobs
-4. Run jobs and notify consumers
+## Components
 
+* Data Source (blockscout rc1staging instance)
+* Message Queue (beanstalkd)
+    * + UI pod
+* Processor
+    * Filter events, convert to notification jobs 
+* Notifier
+    * Execute notification jobs
 
-## Open Questions
+## Todo
 
-* How to register for notifications?
-    * Platform dependent?
-        * Telegram bot interaction?
+* Implement notifier
+* Implement processor
+* Implement telegram bot
+
+### Completed
+
+* Create beanstalkd instance
+* Publish raw contract events to it
+* Convert events to notification jobs (basic)
+* Setup infrastructure
+* Create placeholder components
 
 
