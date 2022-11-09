@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "helm.fullname" . }}-{{ .Values.request-bin.name}}
+  name: {{ include "helm.fullname" . }}-{{ .Values.requestbin.name}}
   labels:
     {{- include "helm.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.request-bin.replicaCount }}
+  replicas: {{ .Values.requestbin.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
@@ -19,7 +19,7 @@ spec:
       {{- end }}
       labels:
         {{- include "helm.selectorLabels" . | nindent 8 }}
-        component: {{ .Values.request-bin.name}}
+        component: {{ .Values.requestbin.name}}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -29,11 +29,11 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Values.request-bin.name }}
+        - name: {{ .Values.requestbin.name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.request-bin.image.repository }}:{{ .Values.request-bin.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.request-bin.image.pullPolicy }}
+          image: "{{ .Values.requestbin.image.repository }}:{{ .Values.requestbin.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.requestbin.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

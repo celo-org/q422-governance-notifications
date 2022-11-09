@@ -5,4 +5,7 @@ processor:
 deploy: 
 	helm template rc1staging ops/helm | kubectl apply -n event-notifications -f -
 
+templates: 
+	helm template rc1staging ops/helm 
+
 .PHONY: processor
