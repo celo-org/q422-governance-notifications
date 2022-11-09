@@ -48,6 +48,11 @@ defmodule TelegramService.MessageHandler do
         Reply.send(chat_id, "ay yo what's good")
         result
 
+      {:ok, :echo} = result ->
+        "/echo " <> msg = body
+        Reply.send(chat_id, msg)
+        result
+
       {:ok, _} = result -> result
     end
   end
@@ -56,6 +61,7 @@ defmodule TelegramService.MessageHandler do
 
   def get_response("/subscribe" <> _rest), do: {:ok, :subscribe}
   def get_response("/unsubscribe" <> _rest), do: {:ok, :unsubscribe}
+  def get_response("/echo " <> _rest), do: {:ok, :echo}
   def get_response("sup" <> _rest), do: {:ok, :random}
   def get_response(msg) do
     {:ok, nil}
