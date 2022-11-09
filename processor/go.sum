@@ -1,0 +1,12 @@
+github.com/beanstalkd/go-beanstalk v0.1.0 h1:IiNwYbAoVBDs5xEOmleGoX+DRD3Moz99EpATbl8672w=
+github.com/beanstalkd/go-beanstalk v0.1.0/go.mod h1:/G8YTyChOtpOArwLTQPY1CHB+i212+av35bkPXXj56Y=
+github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
+github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
+github.com/kr/beanstalk v0.0.0-20180818045031-cae1762e4858 h1:kkNVQqyYyI0SsW9sOUEAKiLzoJGzW1ZVoYQCUmrAowE=
+github.com/kr/beanstalk v0.0.0-20180818045031-cae1762e4858/go.mod h1:S640fId9Ag4k2hh6Hwwj62pMSZqfMtg/kfKPeAOhET8=
+github.com/mikegleasonjr/workers v0.0.0-20160423133324-427fa99d3a43 h1:CStkQy3rU2bHDL3TNozboz5Yb0TrZ89O0wTwtW/gb1c=
+github.com/mikegleasonjr/workers v0.0.0-20160423133324-427fa99d3a43/go.mod h1:3zlepftPyyaWX/07Hn7dZ6QyxSVZzQb9sYaXToSxkfU=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
+gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
+gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
