@@ -9,8 +9,13 @@ defmodule TelegramService.Application do
   @impl true
   def start(_type, _args) do
     Logger.info("start app")
+
+    bot_refresh_period = "BOT_POLL_TIME_SECONDS"
+                         |> System.get_env("5")
+                         |> String.to_integer()
+                         |> :timer.seconds()
     children = [
-      {TelegramService.Bot, bot_key: System.get_env("TELEGRAM_BOT_SECRET")}
+      {TelegramService.Bot, bot_key: System.get_env("TELEGRAM_BOT_SECRET"), refresh: bot_refresh_period}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
