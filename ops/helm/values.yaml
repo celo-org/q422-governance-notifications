@@ -39,6 +39,14 @@ monitor:
     tag: "latest"
   replicaCount: 1
 
+requestbin:
+  name: request-bin
+  image:
+    repository: gcr.io/celo-testnet-production/request-bin-q422
+    pullPolicy: Always
+    tag: "latest"
+  replicaCount: 1
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
