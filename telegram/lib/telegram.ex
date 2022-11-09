@@ -1,6 +1,6 @@
-defmodule Telegram do
+defmodule TelegramService do
   @moduledoc """
-  Documentation for `Telegram`.
+  Documentation for `TelegramService`.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule Telegram do
 
   ## Examples
 
-      iex> Telegram.hello()
+      iex> TelegramService.hello()
       :world
 
   """

@@ -1,9 +1,9 @@
-defmodule Telegram.MixProject do
+defmodule TelegramService.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :telegram,
+      app: :telegram_service,
       version: "0.1.0",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
@@ -15,7 +15,7 @@ defmodule Telegram.MixProject do
   def application do
     [
       extra_applications: [:logger, :prometheus_ex],
-      mod: {Telegram.Application, []}
+      mod: {TelegramService.Application, []}
     ]
   end
 
