@@ -33,14 +33,13 @@ import (
 // }
 
 type Message struct {
-	Subscriber string
+	Subscriber int
 	Endpoint   string
 	Id         string
 	Params     map[string]interface{}
 }
 
 const UNIMPORTANT = 2048
-
 
 // TODO:
 // - decide what to do with erroneous messages in every case

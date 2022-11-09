@@ -1,0 +1,17 @@
+contracts:
+- contract_address_hash: "*"
+  name: "All contracts"
+  topics:
+  - topic: "*"
+    name: AllEvents
+    subscribers:
+    - id: 345
+      url: http://rc1staging-governance-notifications-request-bin.event-notifications.svc.cluster.local/webhook
+- contract_address_hash: 0xd533ca259b330c7a88f74e000a3faea2d63b7972
+  name: Governance
+  topics:
+  - topic: 0x1bfe527f3548d9258c2512b6689f0acfccdd0557d80a53845db25fc57e93d8fe
+    name: ProposalQueued
+    subscribers:
+    - id: 123
+      url: http://rc1staging-governance-notifications-request-bin.event-notifications.svc.cluster.local/webhook
