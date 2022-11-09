@@ -35,48 +35,42 @@ defmodule TelegramService.MessageHandler do
       }) do
     Logger.info("Received message from: #{from["username"]} - #{body}")
 
-    case get_response(body) do
-      {:ok, :subscribe} = result ->
-        Reply.send(chat_id, "you're subscribed!")
-        Subscriptions.subscribe(chat_id)
-        result
-
-      {:ok, :unsubscribe} = result ->
-        Reply.send(chat_id, "you're not subscribed anymore!!")
-        Subscriptions.unsubscribe(chat_id)
-        result
-
-      {:ok, :random} = result ->
-        Reply.send(chat_id, "ay yo what's good")
-        result
-
-      {:ok, :echo} = result ->
-        "/echo " <> msg = body
-        Reply.send(chat_id, msg)
-        result
-
-      {:ok, :start} = result ->
-        Reply.send(
-          chat_id,
-          "Hey! 👋 send /subscribe to get notifications on Celo mainnet governance proposals!"
-        )
-
-        result
-
-      {:ok, _} = result ->
-        result
-    end
+    respond(body, chat_id)
   end
 
   def handle_message(_), do: {:error, :bad_format}
 
-  def get_response("/subscribe" <> _rest), do: {:ok, :subscribe}
-  def get_response("/unsubscribe" <> _rest), do: {:ok, :unsubscribe}
-  def get_response("/echo " <> _rest), do: {:ok, :echo}
-  def get_response("/start" <> _rest), do: {:ok, :start}
-  def get_response("sup" <> _rest), do: {:ok, :random}
+  defp respond("/subscribe" <> _rest, chat_id) do
+    Reply.send(chat_id, "you're subscribed!")
+    Subscriptions.subscribe(chat_id)
 
-  def get_response(msg) do
-    {:ok, nil}
+    {:ok, :subscribe}
   end
+
+  defp respond("/unsubscribe" <> _rest, chat_id) do
+    Reply.send(chat_id, "you're not subscribed anymore!!")
+    Subscriptions.unsubscribe(chat_id)
+    {:ok, :unsubscribe}
+  end
+
+  defp respond("/echo " <> msg, chat_id) do
+    Reply.send(chat_id, msg)
+    {:ok, :echo}
+  end
+
+  defp respond("/start" <> _rest, chat_id) do
+    Reply.send(
+      chat_id,
+      "Hey! 👋 send /subscribe to get notifications on Celo mainnet governance proposals!"
+    )
+
+    {:ok, :start}
+  end
+
+  defp respond("sup" <> _rest, chat_id) do
+    Reply.send(chat_id, "ay yo what's good")
+    {:ok, :random}
+  end
+
+  defp respond(_, _), do: {:ok, nil}
 end
