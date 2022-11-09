@@ -2,6 +2,8 @@ defmodule TelegramService.Bot do
   use GenServer
   require Logger
 
+  alias TelegramService.MessageHandler, as: Handler
+
   def start_link(opts) do
     GenServer.start_link(__MODULE__, opts, opts)
   end
@@ -46,12 +48,11 @@ defmodule TelegramService.Bot do
         #process messages and find the max update_id for next poll
         messages
         |> Enum.map(fn message ->
-          Logger.info("Got message: #{inspect(message)}")
+          {:ok, _} = Handler.handle_message(message)
 
           message["update_id"]
         end)
         |> Enum.max()
-
     end
 
     new_timer = Process.send_after(self(), :check, refresh_period)

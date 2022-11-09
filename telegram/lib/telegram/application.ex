@@ -15,7 +15,8 @@ defmodule TelegramService.Application do
                          |> String.to_integer()
                          |> :timer.seconds()
     children = [
-      {TelegramService.Bot, bot_key: System.get_env("TELEGRAM_BOT_SECRET"), refresh: bot_refresh_period}
+      {TelegramService.Bot, bot_key: System.get_env("TELEGRAM_BOT_SECRET"), refresh: bot_refresh_period},
+      {TelegramService.ReplyCoordinator, bot_key: System.get_env("TELEGRAM_BOT_SECRET"), name: TelegramService.ReplyCoordinator}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
