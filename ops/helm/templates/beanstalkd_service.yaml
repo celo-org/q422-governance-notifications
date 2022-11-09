@@ -13,3 +13,21 @@ spec:
   selector:
     {{- include "helm.selectorLabels" . | nindent 4 }}
     component: beanstalkd
+{{- if .Values.metrics.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "helm.fullname" . }}-metrics
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type}}
+  ports:
+  - name: metrics
+    port: {{ .Values.metrics.port }}
+    targetPort: metrics
+  selector:
+    {{- include "helm.selectorLabels" . | nindent 4 }}
+    component: beanstalkd
+{{- end }}
