@@ -22,5 +22,10 @@
     </content>
 >>>>>>> 209b6ba (start telegram project.)
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="telegram" level="project" />
+    <orderEntry type="library" name="prometheus_ex" level="project" />
+    <orderEntry type="library" name="elixir_talk" level="project" />
+    <orderEntry type="library" name="observer_cli" level="project" />
+    <orderEntry type="library" name="telemetry" level="project" />
   </component>
 </module>
