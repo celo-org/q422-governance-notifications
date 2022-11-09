@@ -7,6 +7,14 @@ steps:
           "--context", "dir://processor"
     ]
     waitFor: ["-"]
+  - name: "gcr.io/kaniko-project/executor:v1.6.0"
+    args: [
+          "--cache=true",
+          "--destination=gcr.io/$PROJECT_ID/event-notifier-q422:latest",
+          "--dockerfile", "notifier/Dockerfile",
+          "--context", "dir://notifier"
+    ]
+    waitFor: ["-"]
 options:
     machineType: 'N1_HIGHCPU_32'
 timeout: 1200s
