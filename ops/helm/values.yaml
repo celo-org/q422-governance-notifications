@@ -6,6 +6,8 @@ beanstalkd:
     pullPolicy: IfNotPresent
     tag: "latest"
   port: 11300
+  maxJobSize: 65535
+  binlogSize: "20Mi"
   replicaCount: 1
   name: beanstalkd
 
@@ -111,6 +113,15 @@ autoscaling:
   maxReplicas: 1
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
+
+metrics:
+  enabled: true
+  image:
+    repository: dtannock/beanstalkd-exporter
+    pullPolicy: IfNotPresent
+    tag: "0.1.1"
+  path: /metrics
+  port: 11301
 
 nodeSelector: {}
 

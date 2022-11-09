@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "helm.fullname" . }}-beanstalkd
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "helm.fullname" . }}-beanstalkd
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- if .Values.metrics.enabled }}
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: {{ .Values.metrics.path | quote}}
+        prometheus.io/port: {{ .Values.metrics.port | quote}}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "helm.selectorLabels" . | nindent 8 }}
+        component: beanstalkd
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "helm.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+      - name: beanstalkd
+        image: "{{ .Values.beanstalkd.image.repository }}:{{ .Values.beanstalkd.image.tag | default .Chart.AppVersion }}"
+        securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+        imagePullPolicy: {{ default "" .Values.beanstalkd.image.pullPolicy | quote }}
+        args:
+        - -z {{ .Values.beanstalkd.maxJobSize }}
+        ports:
+        - name: beanstalkd
+          containerPort: {{ .Values.beanstalkd.port }}
+        livenessProbe:
+          tcpSocket:
+            port: beanstalkd
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: beanstalkd
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        env:
+        - name: PORT
+          value: {{ .Values.beanstalkd.port | quote}}
+        volumeMounts:
+        - name: beanstalkd-data
+          mountPath: /var/lib/beanstalkd
+      {{- if .Values.metrics.enabled }}
+      - name: beanstalkd-metrics
+        image: "{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.metrics.image.pullPolicy }}
+        args:
+        - --web.listen-address=:{{ .Values.metrics.port }}
+        - --beanstalkd.address={{ .Values.service.fqdn }}:{{ .Values.beanstalkd.port }}
+        ports:
+        - name: metrics
+          containerPort: {{ .Values.metrics.port }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  volumeClaimTemplates:
+    - kind: PersistentVolumeClaim
+      apiVersion: v1
+      metadata:
+        name: beanstalkd-data
+      spec:
+        volumeMode: Filesystem
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
