@@ -22,7 +22,7 @@ defmodule TelegramService.ReplyCoordinator do
   @impl GenServer
   def handle_cast({:send, {chat_id, message}}, %{key: key} = state) do
     # todo: send via task
-    Telegram.send(key, chat_id, message)
+    Telegram.send_message(key, chat_id, message)
 
     {:noreply, state}
   end

@@ -13,4 +13,8 @@ defmodule TelegramService.TelegramAPI do
       text: message
     )
   end
+
+  def poll_messages(key, since) do
+    Telegram.Api.request(key, "getUpdates", offset: since + 1, timeout: 30)
+  end
 end

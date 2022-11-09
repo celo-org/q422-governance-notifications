@@ -25,7 +25,7 @@ defmodule TelegramService.Bot do
           me: me,
           last_seen: -2,
           refresh_period: refresh_period,
-          check_timer: Process.send_after(self(), :check, refresh_period)
+          poll_timer: Process.send_after(self(), :poll, refresh_period)
         }
 
         {:ok, state, {:continue, :setup_commands}}
@@ -36,6 +36,7 @@ defmodule TelegramService.Bot do
     end
   end
 
+  @impl GenServer
   def handle_continue(:setup_commands, state = %{bot_key: key}) do
     commands = %{
       commands: [
@@ -55,31 +56,34 @@ defmodule TelegramService.Bot do
 
   @impl GenServer
   def handle_info(
-        :check,
-        %{bot_key: key, last_seen: last_seen, check_timer: timer, refresh_period: refresh_period} =
+        :poll,
+        %{bot_key: key, last_seen: last_seen, poll_timer: timer, refresh_period: refresh_period} =
           state
       ) do
     Process.cancel_timer(timer)
 
-    last_update =
-      case Telegram.Api.request(key, "getUpdates", offset: last_seen + 1, timeout: 30) do
+    most_recent_message_id =
+      case Telegram.poll_messages(key, last_seen) do
         {:ok, []} ->
-          # no messages
           last_seen
 
         {:ok, messages} ->
-          # process messages and find the max update_id for next poll
-          messages
-          |> Enum.map(fn message ->
-            {:ok, _} = Handler.handle_message(message)
-
-            message["update_id"]
-          end)
-          |> Enum.max()
+          messages |> process_messages()
       end
 
-    new_timer = Process.send_after(self(), :check, refresh_period)
+    new_timer = Process.send_after(self(), :poll, refresh_period)
 
-    {:noreply, %{state | check_timer: new_timer, last_seen: last_update}}
+    {:noreply, %{state | poll_timer: new_timer, last_seen: most_recent_message_id}}
+  end
+
+  # call handler for all messages and find the max update_id / timestamp for next poll
+  defp process_messages(messages) do
+    messages
+    |> Enum.map(fn message ->
+      {:ok, _} = Handler.handle_message(message)
+
+      message["update_id"]
+    end)
+    |> Enum.max()
   end
 end
