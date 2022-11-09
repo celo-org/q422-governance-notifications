@@ -2,6 +2,7 @@ defmodule TelegramService.MessageHandler do
   require Logger
 
   alias TelegramService.ReplyCoordinator, as: Reply
+  alias TelegramService.SubscriptionQueue, as: Subscriptions
 
   @doc """
   Destructure the telegram chat message. Expects output formatted from telegram api. e.g.
@@ -35,10 +36,12 @@ defmodule TelegramService.MessageHandler do
     case get_response(body) do
       {:ok, :subscribe} = result ->
         Reply.send(chat_id, "you're subscribed!")
+        Subscriptions.subscribe(chat_id)
         result
 
       {:ok, :unsubscribe} = result ->
         Reply.send(chat_id, "you're not subscribed anymore!!")
+        Subscriptions.unsubscribe(chat_id)
         result
 
       {:ok, :random} = result ->
