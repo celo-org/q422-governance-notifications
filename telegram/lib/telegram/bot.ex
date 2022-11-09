@@ -3,6 +3,7 @@ defmodule TelegramService.Bot do
   require Logger
 
   alias TelegramService.MessageHandler, as: Handler
+  alias TelegramService.TelegramAPI, as: Telegram
 
   def start_link(opts) do
     GenServer.start_link(__MODULE__, opts, opts)
@@ -15,7 +16,7 @@ defmodule TelegramService.Bot do
     {key, _opts} = Keyword.pop!(opts, :bot_key)
     {refresh_period, _opts} = Keyword.pop!(opts, :refresh)
 
-    case Telegram.Api.request(key, "getMe") do
+    case Telegram.identify(key) do
       {:ok, me} ->
         Logger.info("Bot successfully self-identified: #{me["username"]}")
 
@@ -36,29 +37,20 @@ defmodule TelegramService.Bot do
   end
 
   def handle_continue(:setup_commands, state = %{bot_key: key}) do
-    remove_old_commands(key)
-    register_commands(key)
+    commands = %{
+      commands: [
+        %{
+          command: "subscribe",
+          description: "Subscribe to Celo mainnet governance proposal status changes"
+        },
+        %{command: "unsubscribe", description: "Stop notifications"}
+      ]
+    }
+
+    {:ok, _} = Telegram.remove_bot_commands(key)
+    {:ok, _} = Telegram.set_bot_commands(key, commands)
 
     {:noreply, state}
-  end
-
-  def remove_old_commands(key) do
-    {:ok, _} = Telegram.Api.request(key, "deleteMyCommands")
-  end
-
-  def register_commands(key) do
-    commands =
-      %{
-        commands: [
-          %{
-            command: "subscribe",
-            description: "Subscribe to Celo mainnet governance proposal status changes"
-          },
-          %{command: "unsubscribe", description: "Stop notifications"}
-        ]
-      }
-
-    {:ok, _} = Telegram.Api.request(key, "setMyCommands", commands)
   end
 
   @impl GenServer

@@ -2,6 +2,8 @@ defmodule TelegramService.ReplyCoordinator do
   use GenServer
   require Logger
 
+  alias TelegramService.TelegramAPI, as: Telegram
+
   def start_link(opts) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
@@ -20,10 +22,7 @@ defmodule TelegramService.ReplyCoordinator do
   @impl GenServer
   def handle_cast({:send, {chat_id, message}}, %{key: key} = state) do
     # todo: send via task
-    Telegram.Api.request(key, "sendMessage",
-      chat_id: chat_id,
-      text: message
-    )
+    Telegram.send(key, chat_id, message)
 
     {:noreply, state}
   end
