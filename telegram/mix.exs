@@ -14,7 +14,7 @@ defmodule TelegramService.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :prometheus_ex],
+      extra_applications: [:logger, :prometheus_ex, :connection],
       mod: {TelegramService.Application, []}
     ]
   end

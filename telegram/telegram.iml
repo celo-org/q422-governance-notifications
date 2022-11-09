@@ -40,6 +40,27 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/prometheus" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/yamerl" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/telegram" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/mime" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/plug" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/jason" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/ranch" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/recon" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/tesla" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/cowboy" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/cowlib" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/yamerl" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/telegram" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/telemetry" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/connection" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/prometheus" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/elixir_talk" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/plug_cowboy" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/plug_crypto" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/yaml_elixir" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/observer_cli" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/prometheus_ex" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/cowboy_telemetry" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/prod/lib/quantile_estimator" />
     </content>
 >>>>>>> 209b6ba (start telegram project.)
     <orderEntry type="sourceFolder" forTests="false" />
