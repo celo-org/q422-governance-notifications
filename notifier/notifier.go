@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/mikegleasonjr/workers"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
+
+	"github.com/mikegleasonjr/workers"
 )
 
 // Example:
@@ -59,13 +61,11 @@ func main() {
 		tube = "processed"
 	}
 
-	fmt.Println("Starting")
-
 	mux := workers.NewWorkMux()
 
 	mux.Handle(tube, workers.HandlerFunc(func(job *workers.Job) {
 		if !json.Valid(job.Body) {
-			fmt.Println("Invalid JSON payload:", job.Body)
+			log.Println("Invalid JSON payload:", job.Body)
 			return
 		}
 
@@ -74,7 +74,7 @@ func main() {
 
 		payload, err := json.Marshal(message.Params)
 		if err != nil {
-			fmt.Println("Can't marshall webhook payload", message.Params)
+			log.Println("Can't marshall webhook payload", message.Params)
 			return
 		}
 
@@ -82,7 +82,7 @@ func main() {
 
 		req, err := http.NewRequest("POST", message.Endpoint, postBody)
 		if err != nil {
-			fmt.Println("Couldn't create HTTP request")
+			log.Println("Couldn't create HTTP request")
 			return
 		}
 
@@ -91,7 +91,7 @@ func main() {
 		client := &http.Client{}
 		resp, err := client.Do(req)
 		if err != nil {
-			fmt.Printf("HTTP error: %v", err)
+			log.Printf("HTTP error: %v", err)
 			return
 		}
 
@@ -101,11 +101,11 @@ func main() {
 			body, err := ioutil.ReadAll(resp.Body)
 
 			if err != nil {
-				fmt.Println(err)
+				log.Println(err)
 				return
 			}
 
-			fmt.Println("Posted unsuccessfully, response: ", string(body))
+			log.Println("Posted unsuccessfully, response: ", string(body))
 			job.Bury(UNIMPORTANT)
 		}
 
