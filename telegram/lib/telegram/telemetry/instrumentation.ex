@@ -2,7 +2,8 @@ defmodule TelegramService.Telemetry.Instrumentation do
   use Prometheus.Metric
 
   @counters [
-    %{metric_name: "received_events", help: "Number of events received on the api endpoint", telemetry_id: :received_event }
+    %{metric_name: "received_events", help: "Number of events received on the api endpoint", telemetry_id: :received_event },
+    %{metric_name: "received_telegram_messages", help: "Number of messages received via telegram", telemetry_id: :received_msg },
   ]
   def setup() do
     @counters
@@ -19,7 +20,6 @@ defmodule TelegramService.Telemetry.Instrumentation do
   def handler_id(name), do: "handler-#{name}"
 
   def handle_counter(_event_name, %{count: count}, _event_metadata, %{metric_name: name}) do
-    binding() |> IO.inspect()
     Counter.inc([name: name], count)
   end
 end

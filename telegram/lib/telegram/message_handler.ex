@@ -3,11 +3,14 @@ defmodule TelegramService.MessageHandler do
 
   alias TelegramService.TelegramAPI, as: Telegram
   alias TelegramService.SubscriptionQueue, as: Subscriptions
+  alias TelegramService.Telemetry
 
   def handle_messages(messages) do
     messages
     |> Enum.each(fn msg ->
       Task.Supervisor.start_child(TelegramService.TaskSupervisor, fn ->
+        Telemetry.count(:received_msg)
+
         handle_message(msg)
       end)
     end)
