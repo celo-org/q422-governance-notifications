@@ -50,7 +50,7 @@ spec:
           - name: BEANSTALKD_PORT
             value: "{{ .Values.beanstalkd.port }}"
           - name: BEANSTALKD_HOST
-            value: "{{ .Values.service.fqdn }}"
+            value: "{{ .Values.beanstalkd.service.fqdn }}"
           - name: APACHE_PORT
             value: "80"
       {{- with .Values.nodeSelector }}

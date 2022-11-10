@@ -23,6 +23,14 @@ steps:
           "--context", "dir://request_bin"
     ]
     waitFor: ["-"]
+  - name: "gcr.io/kaniko-project/executor:v1.6.0"
+    args: [
+          "--cache=true",
+          "--destination=gcr.io/$PROJECT_ID/telegram-service-q422:latest",
+          "--dockerfile", "telegram/Dockerfile",
+          "--context", "dir://telegram"
+    ]
+    waitFor: ["-"]
 options:
     machineType: 'N1_HIGHCPU_32'
-timeout: 300s
+timeout: 900s

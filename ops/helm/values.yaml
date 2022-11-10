@@ -10,6 +10,9 @@ beanstalkd:
   binlogSize: "20Mi"
   replicaCount: 1
   name: beanstalkd
+  service:
+    type: ClusterIP
+    fqdn: rc1staging-governance-notifications-beanstalkd.event-notifications.svc.cluster.local
 
 processor:
   name: event-processor
@@ -48,6 +51,19 @@ requestbin:
     pullPolicy: Always
     tag: "latest"
   replicaCount: 1
+  service:
+    type: ClusterIP
+    fqdn: rc1staging-governance-notifications-request-bin.event-notifications.svc.cluster.local
+
+telegram:
+  name: telegram
+  image:
+    repository: gcr.io/celo-testnet-production/telegram-q422
+    pullPolicy: Always
+    tag: "latest"
+  replicaCount: 1
+  subscriptionTube: "subscriptions"
+  pollTimeSeconds: 2
 
 imagePullSecrets: []
 nameOverride: ""
@@ -75,9 +91,6 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-service:
-  type: ClusterIP
-  fqdn: rc1staging-governance-notifications-beanstalkd.event-notifications.svc.cluster.local
 
 ingress:
   enabled: false

@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "helm.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type}}
+  type: {{ .Values.beanstalkd.service.type}}
   ports:
     - port: {{ .Values.beanstalkd.port }}
       targetPort: {{ .Values.beanstalkd.port }}
@@ -22,7 +22,7 @@ metadata:
   labels:
     {{- include "helm.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type}}
+  type: {{ .Values.beanstalkd.service.type}}
   ports:
   - name: metrics
     port: {{ .Values.metrics.port }}
