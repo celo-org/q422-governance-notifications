@@ -7,5 +7,6 @@ defmodule TelegramWeb.Router do
 
   scope "/api", TelegramWeb do
     pipe_through :api
+    post "/receive", EventController, :receive
   end
 end
