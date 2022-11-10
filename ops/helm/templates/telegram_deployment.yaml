@@ -50,6 +50,11 @@ spec:
             value: "{{ .Values.telegram.subscriptionTube }}"
           - name: BOT_TIME_POLL_SECONDS
             value: "{{ .Values.telegram.pollTimeSeconds }}"
+          - name: SECRET_KEY_BASE
+            valueFrom:
+              secretKeyRef:
+                name: telegram
+                key: phoenix-secret-key-base
           - name: TELEGRAM_BOT_SECRET
             valueFrom:
               secretKeyRef:
