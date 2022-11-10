@@ -10,4 +10,11 @@ deploy:
 templates: 
 	helm template rc1staging ops/helm 
 
-.PHONY: processor notifier deploy templates
+telegram:
+	docker build ./telegram -t telegram-q422:latest
+
+push_telegram: telegram
+	docker image tag telegram-q422:latest gcr.io/celo-testnet-production/telegram-q422:latest
+	docker image push gcr.io/celo-testnet-production/telegram-q422:latest
+
+.PHONY: processor notifier deploy templates telegram

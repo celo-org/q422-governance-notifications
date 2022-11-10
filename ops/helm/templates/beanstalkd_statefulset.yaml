@@ -69,7 +69,7 @@ spec:
         imagePullPolicy: {{ .Values.metrics.image.pullPolicy }}
         args:
         - --web.listen-address=:{{ .Values.metrics.port }}
-        - --beanstalkd.address={{ .Values.service.fqdn }}:{{ .Values.beanstalkd.port }}
+        - --beanstalkd.address={{ .Values.beanstalkd.service.fqdn }}:{{ .Values.beanstalkd.port }}
         ports:
         - name: metrics
           containerPort: {{ .Values.metrics.port }}

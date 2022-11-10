@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "helm.fullname" . }}-notifier
+  name: {{ include "helm.fullname" . }}-{{ .Values.telegram.name}}
   labels:
     {{- include "helm.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.notifier.autoscaling.enabled }}
-  replicas: {{ .Values.notifier.replicaCount }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.telegram.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
@@ -19,7 +19,7 @@ spec:
       {{- end }}
       labels:
         {{- include "helm.selectorLabels" . | nindent 8 }}
-        component: notifier
+        component: {{ .Values.telegram.name}}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -29,20 +29,28 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Values.notifier.name }}
+        - name: {{ .Values.telegram.name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.notifier.image.repository }}:{{ .Values.notifier.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.notifier.image.pullPolicy }}
+          image: "{{ .Values.telegram.image.repository }}:{{ .Values.telegram.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.telegram.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
-          - name: BEANSTALK_HOST
+          - name: BEANSTALKD_HOST
             value: "{{ .Values.beanstalkd.service.fqdn }}"
-          - name: BEANSTALK_PORT
+          - name: BEANSTALKD_PORT
             value: "{{ .Values.beanstalkd.port }}"
-          - name: BEANSTALK_TUBE
-            value: "processed"
+          - name: BEANSTALKD_TUBE
+            value: "{{ .Values.telegram.subscriptionTube }}"
+          - name: BOT_TIME_POLL_SECONDS
+            value: "{{ .Values.telegram.pollTimeSeconds }}"
+          - name: TELEGRAM_BOT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: telegram
+                key: api-token
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

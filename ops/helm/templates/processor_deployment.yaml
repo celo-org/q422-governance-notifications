@@ -38,10 +38,9 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
           - name: BEANSTALK_HOST
-            value: "{{ .Values.service.fqdn }}"
+            value: "{{ .Values.beanstalkd.service.fqdn }}"
           - name: BEANSTALK_PORT
             value: "{{ .Values.beanstalkd.port }}"
-            
           - name: BEANSTALK_OUT_TUBE
             value: "processed"
           - name: READ_DELAY
