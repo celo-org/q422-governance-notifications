@@ -39,5 +39,6 @@ defmodule TelegramWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  plug TelegramService.MetricsExporter
   plug TelegramWeb.Router
 end

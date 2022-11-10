@@ -1,5 +1,11 @@
 import Config
 
+config :prometheus, TelegramService.MetricsExporter,
+  path: "/metrics",
+  format: :auto, ## or :protobuf, or :text
+  registry: :default,
+  auth: false
+
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
 # system starts, so it is typically used to load production configuration
