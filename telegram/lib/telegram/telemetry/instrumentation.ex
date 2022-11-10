@@ -19,6 +19,7 @@ defmodule TelegramService.Telemetry.Instrumentation do
   def handler_id(name), do: "handler-#{name}"
 
   def handle_counter(_event_name, %{count: count}, _event_metadata, %{metric_name: name}) do
-    Counter.inc(name, count)
+    binding() |> IO.inspect()
+    Counter.inc([name: name], count)
   end
 end
