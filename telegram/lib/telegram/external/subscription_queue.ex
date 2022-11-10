@@ -29,9 +29,7 @@ defmodule TelegramService.SubscriptionQueue do
   def handle_cast({:subscribe, chat_id, options}, %{queue: queue} = state) do
     Logger.info("Subscribing #{chat_id}")
     Telemetry.count(:subscribe)
-    message = format_message(:subscribe, chat_id, options)
-
-    queue |> ElixirTalk.put(message)
+    _message = format_message(:subscribe, chat_id, options)
 
     {:noreply, state}
   end
@@ -41,9 +39,7 @@ defmodule TelegramService.SubscriptionQueue do
     Logger.info("Unsubscribing #{chat_id}")
     Telemetry.count(:unsubscribe)
 
-    message = format_message(:subscribe, chat_id, options)
-
-    queue |> ElixirTalk.put(message)
+    _message = format_message(:subscribe, chat_id, options)
 
     {:noreply, state}
   end
