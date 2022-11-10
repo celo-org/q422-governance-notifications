@@ -5,14 +5,12 @@
 
 Starting a notification system for contract events, namely governance proposals.
 
-
 ## Components
 
 ### Notification Platform
 
 * Data Source (blockscout rc1staging instance)
 * Message Queue (beanstalkd)
-    * + UI pod
 * Processor
     * Filter events, convert to notification jobs 
 * Notifier
