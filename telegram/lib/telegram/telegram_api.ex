@@ -7,6 +7,12 @@ defmodule TelegramService.TelegramAPI do
 
   def set_bot_commands(key, commands), do: API.request(key, "setMyCommands", commands)
 
+  def send(chat_id, message) do
+    "TELEGRAM_BOT_SECRET"
+    |> System.get_env()
+    |> send_message(chat_id, message)
+  end
+
   def send_message(key, chat_id, message) do
     Telegram.Api.request(key, "sendMessage",
       chat_id: chat_id,

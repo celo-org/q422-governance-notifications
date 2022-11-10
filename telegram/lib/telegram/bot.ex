@@ -76,12 +76,11 @@ defmodule TelegramService.Bot do
     {:noreply, %{state | poll_timer: new_timer, last_seen: most_recent_message_id}}
   end
 
-  # call handler for all messages and find the max update_id / timestamp for next poll
   defp process_messages(messages) do
+    messages |> Handler.handle_messages()
+
     messages
     |> Enum.map(fn message ->
-      {:ok, _} = Handler.handle_message(message)
-
       message["update_id"]
     end)
     |> Enum.max()

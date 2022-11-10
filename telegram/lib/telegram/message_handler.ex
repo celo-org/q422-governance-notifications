@@ -1,8 +1,17 @@
 defmodule TelegramService.MessageHandler do
   require Logger
 
-  alias TelegramService.ReplyCoordinator, as: Reply
+  alias TelegramService.TelegramAPI, as: Telegram
   alias TelegramService.SubscriptionQueue, as: Subscriptions
+
+  def handle_messages(messages) do
+    messages
+    |> Enum.each( fn msg ->
+      Task.Supervisor.start_child(TelegramService.TaskSupervisor, fn ->
+        handle_message(msg)
+      end)
+    end)
+  end
 
   @doc """
   Destructure the telegram chat message. Expects output formatted from telegram api. e.g.
@@ -41,25 +50,25 @@ defmodule TelegramService.MessageHandler do
   def handle_message(_), do: {:error, :bad_format}
 
   defp respond("/subscribe" <> _rest, chat_id) do
-    Reply.send(chat_id, "you're subscribed!")
+    Telegram.send(chat_id, "you're subscribed!")
     Subscriptions.subscribe(chat_id)
 
     {:ok, :subscribe}
   end
 
   defp respond("/unsubscribe" <> _rest, chat_id) do
-    Reply.send(chat_id, "you're not subscribed anymore!!")
+    Telegram.send(chat_id, "you're not subscribed anymore!!")
     Subscriptions.unsubscribe(chat_id)
     {:ok, :unsubscribe}
   end
 
   defp respond("/echo " <> msg, chat_id) do
-    Reply.send(chat_id, msg)
+    Telegram.send(chat_id, msg)
     {:ok, :echo}
   end
 
   defp respond("/start" <> _rest, chat_id) do
-    Reply.send(
+    Telegram.send(
       chat_id,
       "Hey! 👋 send /subscribe to get notifications on Celo mainnet governance proposals!"
     )
@@ -68,7 +77,7 @@ defmodule TelegramService.MessageHandler do
   end
 
   defp respond("sup" <> _rest, chat_id) do
-    Reply.send(chat_id, "ay yo what's good")
+    Telegram.send(chat_id, "ay yo what's good")
     {:ok, :random}
   end
 

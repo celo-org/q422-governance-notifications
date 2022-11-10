@@ -6,7 +6,7 @@ defmodule TelegramService.Application do
   use Application
   require Logger
 
-  alias TelegramService.{Bot, ReplyCoordinator, SubscriptionQueue}
+  alias TelegramService.{Bot, SubscriptionQueue}
 
   @impl true
   def start(_type, _args) do
@@ -20,16 +20,14 @@ defmodule TelegramService.Application do
 
     children = [
       {Bot, bot_key: System.get_env("TELEGRAM_BOT_SECRET"), refresh: bot_refresh_period},
-      {ReplyCoordinator, bot_key: System.get_env("TELEGRAM_BOT_SECRET"), name: ReplyCoordinator},
+      {Task.Supervisor, name: TelegramService.TaskSupervisor},
       {SubscriptionQueue,
-       beanstalkd_host: System.get_env("BEANSTALKD_HOST"),
-       beanstalkd_port: System.get_env("BEANSTALKD_PORT"),
-       beanstalkd_tube: System.get_env("BEANSTALKD_TUBE"),
-       name: SubscriptionQueue}
+        beanstalkd_host: System.get_env("BEANSTALKD_HOST"),
+        beanstalkd_port: System.get_env("BEANSTALKD_PORT"),
+        beanstalkd_tube: System.get_env("BEANSTALKD_TUBE"),
+        name: SubscriptionQueue}
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: TelegramService.Supervisor]
     Supervisor.start_link(children, opts)
   end
