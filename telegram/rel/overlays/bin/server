@@ -1,0 +1,4 @@
+#!/bin/sh
+cd -P -- "$(dirname -- "$0")"
+PHX_SERVER=true exec ./telegram_service start
+

@@ -39,7 +39,7 @@ COPY lib lib
 RUN mix compile
 COPY config/runtime.exs config/
 
-
+COPY rel rel
 RUN mix release
 
 # start a new build stage so that the final image will only contain
@@ -67,4 +67,4 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/telegram_serv
 
 USER nobody
 
-CMD /app/bin/telegram_service start
+CMD /app/bin/server
