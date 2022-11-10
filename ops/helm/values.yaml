@@ -64,6 +64,13 @@ telegram:
   replicaCount: 1
   subscriptionTube: "subscriptions"
   pollTimeSeconds: 2
+  metrics:
+    enabled: true
+    path: /metrics
+    port: 4000
+  service:
+    type: ClusterIP
+    fqdn: rc1staging-governance-notifications-telegram.event-notifications.svc.cluster.local
 
 imagePullSecrets: []
 nameOverride: ""
