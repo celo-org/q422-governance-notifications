@@ -71,6 +71,9 @@ telegram:
   service:
     type: ClusterIP
     fqdn: rc1staging-governance-notifications-telegram.event-notifications.svc.cluster.local
+  resources:
+    memory: 1000Mi
+    cpu: 2
 
 imagePullSecrets: []
 nameOverride: ""
