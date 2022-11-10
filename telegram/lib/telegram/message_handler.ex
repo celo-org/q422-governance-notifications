@@ -6,7 +6,7 @@ defmodule TelegramService.MessageHandler do
 
   def handle_messages(messages) do
     messages
-    |> Enum.each( fn msg ->
+    |> Enum.each(fn msg ->
       Task.Supervisor.start_child(TelegramService.TaskSupervisor, fn ->
         handle_message(msg)
       end)
