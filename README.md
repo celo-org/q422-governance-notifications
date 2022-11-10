@@ -21,7 +21,10 @@ Starting a notification system for contract events, namely governance proposals.
 ### Platform consumers
 
 * Telegram
-    * Host bot, manage platform subscriptions and notifications
+    * Host bot on telegram 
+    * Manage telegram user subscriptions and notifications
+* Request bin
+    * Log requests to console
 
 ## Todo
 
