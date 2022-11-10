@@ -25,7 +25,11 @@ defmodule TelegramService.Application do
        beanstalkd_host: System.get_env("BEANSTALKD_HOST"),
        beanstalkd_port: System.get_env("BEANSTALKD_PORT"),
        beanstalkd_tube: System.get_env("BEANSTALKD_TUBE"),
-       name: SubscriptionQueue}
+       name: SubscriptionQueue},
+
+      # web
+      {Phoenix.PubSub, name: Telegram.PubSub},
+      TelegramWeb.Endpoint
     ]
 
     opts = [strategy: :one_for_one, name: TelegramService.Supervisor]

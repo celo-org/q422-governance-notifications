@@ -26,7 +26,12 @@ defmodule TelegramService.MixProject do
       {:prometheus_ex, "~> 3.0"},
       {:elixir_talk, "~> 1.2"},
       {:observer_cli, "~> 1.6"},
-      {:telemetry, "~> 1.0"}
+      {:telemetry, "~> 1.0"},
+      {:phoenix, "~> 1.6.2"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 1.0"},
+      {:jason, "~> 1.2"},
+      {:plug_cowboy, "~> 2.5"}
     ]
   end
 end
