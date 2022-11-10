@@ -24,13 +24,22 @@ ENV MIX_ENV="prod"
 # install mix dependencies
 COPY mix.exs mix.lock ./
 RUN mix deps.get --only $MIX_ENV
+
+RUN mkdir config
+
+# copy compile-time config files before we compile dependencies
+# to ensure any relevant config change will trigger the dependencies
+# to be re-compiled.
+COPY config/config.exs config/${MIX_ENV}.exs config/
 RUN mix deps.compile
 
 # Compile the release
 COPY lib lib
 
 RUN mix compile
+COPY config/runtime.exs config/
 
+COPY rel rel
 RUN mix release
 
 # start a new build stage so that the final image will only contain
@@ -58,4 +67,4 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/telegram_serv
 
 USER nobody
 
-CMD /app/bin/telegram_service start
+CMD /app/bin/server

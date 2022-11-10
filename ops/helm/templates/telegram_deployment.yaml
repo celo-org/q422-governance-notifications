@@ -13,8 +13,13 @@ spec:
       {{- include "helm.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        {{- if .Values.telegram.metrics.enabled }}
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: {{ .Values.telegram.metrics.path | quote}}
+        prometheus.io/port: {{ .Values.telegram.metrics.port | quote}}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -45,6 +50,11 @@ spec:
             value: "{{ .Values.telegram.subscriptionTube }}"
           - name: BOT_TIME_POLL_SECONDS
             value: "{{ .Values.telegram.pollTimeSeconds }}"
+          - name: SECRET_KEY_BASE
+            valueFrom:
+              secretKeyRef:
+                name: telegram
+                key: phoenix-secret-key-base
           - name: TELEGRAM_BOT_SECRET
             valueFrom:
               secretKeyRef:

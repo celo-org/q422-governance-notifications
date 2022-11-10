@@ -42,7 +42,7 @@ defmodule TelegramService.Bot do
       commands: [
         %{
           command: "subscribe",
-          description: "Subscribe to Celo mainnet governance proposal status changes"
+          description: "Get celo updates"
         },
         %{command: "unsubscribe", description: "Stop notifications"}
       ]

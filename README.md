@@ -5,14 +5,12 @@
 
 Starting a notification system for contract events, namely governance proposals.
 
-
 ## Components
 
 ### Notification Platform
 
 * Data Source (blockscout rc1staging instance)
 * Message Queue (beanstalkd)
-    * + UI pod
 * Processor
     * Filter events, convert to notification jobs 
 * Notifier
@@ -21,7 +19,10 @@ Starting a notification system for contract events, namely governance proposals.
 ### Platform consumers
 
 * Telegram
-    * Host bot, manage platform subscriptions and notifications
+    * Host bot on telegram 
+    * Manage telegram user subscriptions and notifications
+* Request bin
+    * Log requests to console
 
 ## Todo
 

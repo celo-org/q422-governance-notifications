@@ -12,6 +12,8 @@ defmodule TelegramService.Application do
   def start(_type, _args) do
     Logger.info("Starting app")
 
+    setup_metrics()
+
     bot_refresh_period =
       "BOT_POLL_TIME_SECONDS"
       |> System.get_env("5")
@@ -25,10 +27,19 @@ defmodule TelegramService.Application do
        beanstalkd_host: System.get_env("BEANSTALKD_HOST"),
        beanstalkd_port: System.get_env("BEANSTALKD_PORT"),
        beanstalkd_tube: System.get_env("BEANSTALKD_TUBE"),
-       name: SubscriptionQueue}
+       name: SubscriptionQueue},
+
+      # web
+      {Phoenix.PubSub, name: Telegram.PubSub},
+      TelegramWeb.Endpoint
     ]
 
     opts = [strategy: :one_for_one, name: TelegramService.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp setup_metrics() do
+    TelegramService.MetricsExporter.setup()
+    TelegramService.Telemetry.Instrumentation.setup()
   end
 end

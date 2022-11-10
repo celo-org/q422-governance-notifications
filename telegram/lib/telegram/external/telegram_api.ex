@@ -1,5 +1,6 @@
 defmodule TelegramService.TelegramAPI do
   alias Telegram.Api, as: API
+  alias TelegramService.Telemetry
 
   def identify(key), do: API.request(key, "getMe")
 
@@ -14,6 +15,8 @@ defmodule TelegramService.TelegramAPI do
   end
 
   def send_message(key, chat_id, message) do
+    Telemetry.count(:sent_msg)
+
     Telegram.Api.request(key, "sendMessage",
       chat_id: chat_id,
       text: message

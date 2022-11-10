@@ -1,6 +1,7 @@
 defmodule TelegramService.SubscriptionQueue do
   use GenServer
   require Logger
+  alias TelegramService.Telemetry
 
   def start_link(opts) do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
@@ -27,9 +28,8 @@ defmodule TelegramService.SubscriptionQueue do
   @impl GenServer
   def handle_cast({:subscribe, chat_id, options}, %{queue: queue} = state) do
     Logger.info("Subscribing #{chat_id}")
-    message = format_message(:subscribe, chat_id, options)
-
-    queue |> ElixirTalk.put(message)
+    Telemetry.count(:subscribe)
+    _message = format_message(:subscribe, chat_id, options)
 
     {:noreply, state}
   end
@@ -37,10 +37,9 @@ defmodule TelegramService.SubscriptionQueue do
   @impl GenServer
   def handle_cast({:unsubscribe, chat_id, options}, %{queue: queue} = state) do
     Logger.info("Unsubscribing #{chat_id}")
+    Telemetry.count(:unsubscribe)
 
-    message = format_message(:subscribe, chat_id, options)
-
-    queue |> ElixirTalk.put(message)
+    _message = format_message(:subscribe, chat_id, options)
 
     {:noreply, state}
   end
