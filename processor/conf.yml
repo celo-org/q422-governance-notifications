@@ -7,6 +7,8 @@ contracts:
     subscribers:
     - id: 345
       url: http://rc1staging-governance-notifications-request-bin.event-notifications.svc.cluster.local/webhook
+    - id: 788
+      url: http://rc1staging-governance-notifications-telegram.event-notifications.svc.cluster.local/api/receive
 - contract_address_hash: 0xd533ca259b330c7a88f74e000a3faea2d63b7972
   name: Governance
   topics:
