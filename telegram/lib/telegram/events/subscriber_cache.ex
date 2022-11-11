@@ -3,15 +3,15 @@ defmodule TelegramService.Events.SubscriberCache do
 
   def add_subscription(chat_id, contract, topic) do
     ConCache.update(@table_name, subscription_key(contract, topic), fn
-      nil -> MapSet.new(chat_id)
-      subscribers = %MapSet{} -> MapSet.put(chat_id)
+      nil -> {:ok, MapSet.new([chat_id])}
+      subscribers = %MapSet{} -> {:ok , MapSet.put(subscribers, chat_id)}
     end)
   end
 
   def remove_subscription(chat_id, contract, topic) do
     ConCache.update(@table_name, subscription_key(contract, topic), fn
-      nil -> MapSet.new()
-      subscribers = %MapSet{} -> MapSet.delete(chat_id)
+      nil -> {:ok, MapSet.new([])}
+      subscribers = %MapSet{} -> {:ok, MapSet.delete(subscribers, chat_id)}
     end)
   end
 

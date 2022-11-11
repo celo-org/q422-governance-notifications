@@ -17,7 +17,8 @@ defmodule TelegramService.Events.Subscriptions do
     Cache.remove_subscription(chat_id, contract_address, topic)
   end
 
-  def get_subscribers(event) do
+  def get_subscribers(%{"contract_address_hash" => contract, "topic" => topic}) do
+    get_subscribers(contract, topic)
 
   end
 

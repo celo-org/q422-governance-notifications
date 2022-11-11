@@ -36,6 +36,7 @@ defmodule TelegramService.MixProject do
       {:prometheus_process_collector, "~> 1.1"},
       {:con_cache, "~> 0.13"}
 
-    ]
+
+]
   end
 end
