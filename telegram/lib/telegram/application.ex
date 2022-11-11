@@ -23,6 +23,8 @@ defmodule TelegramService.Application do
     children = [
       # Telegram bot
       {Bot, bot_key: System.get_env("TELEGRAM_BOT_SECRET"), refresh: bot_refresh_period},
+
+      # task supervisors
       {Task.Supervisor, name: TelegramService.IncomingMessageTasks},
       {Task.Supervisor, name: TelegramService.EventResponseTasks},
 
