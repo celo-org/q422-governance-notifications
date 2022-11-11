@@ -14,7 +14,7 @@ defmodule TelegramService.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :prometheus_ex, :connection, :prometheus_plugs],
+      extra_applications: [:logger, :prometheus_ex, :connection, :prometheus_plugs, :con_cache],
       mod: {TelegramService.Application, []}
     ]
   end
@@ -33,7 +33,10 @@ defmodule TelegramService.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:prometheus_plugs, "~> 1.1"},
-      {:prometheus_process_collector, "~> 1.1"}
-    ]
+      {:prometheus_process_collector, "~> 1.1"},
+      {:con_cache, "~> 0.13"}
+
+
+]
   end
 end
