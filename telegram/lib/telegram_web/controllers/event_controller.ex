@@ -6,6 +6,7 @@ defmodule TelegramWeb.EventController do
   def receive(conn, _params) do
     TelegramService.Telemetry.count(:received_event)
 
+    EventHandler.handle_event()
     conn
     |> put_status(200)
     |> render("received.json")

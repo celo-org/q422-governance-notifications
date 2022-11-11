@@ -26,11 +26,11 @@ Starting a notification system for contract events, namely governance proposals.
 
 ## Todo
 
-* Implement metrics
 * Implement platform subscriptions + notifications
 
 ### Completed
 
+* Implement metrics
 * Create beanstalkd instance
 * Publish raw contract events to it
 * Convert events to notification jobs (basic)

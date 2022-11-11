@@ -21,17 +21,17 @@ defmodule TelegramService.Application do
       |> :timer.seconds()
 
     children = [
+      # Telegram bot
       {Bot, bot_key: System.get_env("TELEGRAM_BOT_SECRET"), refresh: bot_refresh_period},
-      {Task.Supervisor, name: TelegramService.TaskSupervisor},
-      {SubscriptionQueue,
-       beanstalkd_host: System.get_env("BEANSTALKD_HOST"),
-       beanstalkd_port: System.get_env("BEANSTALKD_PORT"),
-       beanstalkd_tube: System.get_env("BEANSTALKD_TUBE"),
-       name: SubscriptionQueue},
+      {Task.Supervisor, name: TelegramService.IncomingMessageTasks},
+      {Task.Supervisor, name: TelegramService.EventResponseTasks},
 
       # web
       {Phoenix.PubSub, name: Telegram.PubSub},
-      TelegramWeb.Endpoint
+      TelegramWeb.Endpoint,
+
+      # Subscriber cache
+      {ConCache, [name: :subscriptions, ttl_check_interval: false]}
     ]
 
     opts = [strategy: :one_for_one, name: TelegramService.Supervisor]
