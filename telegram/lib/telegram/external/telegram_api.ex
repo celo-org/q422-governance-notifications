@@ -19,6 +19,7 @@ defmodule TelegramService.TelegramAPI do
 
     Telegram.Api.request(key, "sendMessage",
       chat_id: chat_id,
+      parse_mode: "markdown",
       text: message
     )
   end
