@@ -42,7 +42,11 @@ defmodule TelegramService.Bot do
       commands: [
         %{
           command: "subscribe",
-          description: "Get cUSD transfers"
+          description: "Get cUSD transfer messages"
+        },
+        %{
+          command: "governance",
+          description: "Get governance proposal messages"
         },
         %{command: "unsubscribe", description: "Stop notifications"}
       ]

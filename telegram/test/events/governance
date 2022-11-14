@@ -1,0 +1,12 @@
+  {
+    "log_index": 7,
+    "transaction_hash": "0x8DDA7E517970ECA9B04F1E72D6D77B4123813E17EF30C8E87195D7A925335611",
+    "contract_address_hash": "0xd533ca259b330c7a88f74e000a3faea2d63b7972",
+    "params": {"deposit": 100000000000000000000, "proposer": "xf3eb910da09b8af348e0e5b6636da442cfa79239", "timestamp": 1664877086, "proposal_id": 71, "transaction_count": 5},
+    "name": "ProposalQueued",
+    "inserted_at": "2022-10-04 09:51:28.436983",
+    "updated_at": "2022-10-04 09:51:28.436983",
+    "block_number": 15441820,
+    "topic": "0x1bfe527f3548d9258c2512b6689f0acfccdd0557d80a53845db25fc57e93d8fe",
+    "bq_rep_id": 114169781
+  }
