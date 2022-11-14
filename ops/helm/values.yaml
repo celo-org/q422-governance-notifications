@@ -59,7 +59,7 @@ requestbin:
 telegram:
   name: telegram
   image:
-    repository: gcr.io/celo-testnet-production/telegram-q422
+    repository: gcr.io/celo-testnet-production/telegram-service-q422
     pullPolicy: Always
     tag: "latest"
   replicaCount: 1
