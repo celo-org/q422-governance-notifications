@@ -53,15 +53,23 @@ defmodule TelegramService.MessageHandler do
   def handle_message(_), do: {:error, :bad_format}
 
   defp respond("/subscribe" <> _rest, chat_id) do
-    Telegram.send(chat_id, "you're subscribed!")
+    Telegram.send(chat_id, "Subscribed to cUSD transfer notifications")
     Subscriptions.subscribe(chat_id)
 
     {:ok, :subscribe}
   end
 
+  defp respond("/governance" <> _rest, chat_id) do
+    Telegram.send(chat_id, "Subscribed to governance `ProposalQueued` notifications")
+    Subscriptions.subscribe_governance(chat_id)
+
+    {:ok, :governance}
+  end
+
   defp respond("/unsubscribe" <> _rest, chat_id) do
-    Telegram.send(chat_id, "you're not subscribed anymore!!")
+    Telegram.send(chat_id, "Notifications stopped")
     Subscriptions.unsubscribe(chat_id)
+    Subscriptions.unsubscribe_governance(chat_id)
     {:ok, :unsubscribe}
   end
 
@@ -73,7 +81,7 @@ defmodule TelegramService.MessageHandler do
   defp respond("/start" <> _rest, chat_id) do
     Telegram.send(
       chat_id,
-      "Hey! 👋 send /subscribe to get notifications on Celo mainnet governance proposals!"
+      "Hey! 👋 send /subscribe to get notifications on cUSD transfers."
     )
 
     {:ok, :start}
