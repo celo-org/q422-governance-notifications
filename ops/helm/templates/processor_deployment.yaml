@@ -32,7 +32,7 @@ spec:
         - name: {{ .Values.processor.name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.processor.image.repository }}:{{ .Values.processor.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.processor.image.repository }}:{{ .Values.commitsh | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.processor.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

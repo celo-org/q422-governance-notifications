@@ -2,7 +2,7 @@ steps:
   - name: "gcr.io/kaniko-project/executor:v1.6.0"
     args: [
           "--cache=true",
-          "--destination=gcr.io/$PROJECT_ID/event-processor-q422:latest",
+          "--destination=gcr.io/$PROJECT_ID/event-processor-q422:$COMMIT_SHA",
           "--dockerfile", "processor/Dockerfile",
           "--context", "dir://processor"
     ]
@@ -10,7 +10,7 @@ steps:
   - name: "gcr.io/kaniko-project/executor:v1.6.0"
     args: [
           "--cache=true",
-          "--destination=gcr.io/$PROJECT_ID/event-notifier-q422:latest",
+          "--destination=gcr.io/$PROJECT_ID/event-notifier-q422:$COMMIT_SHA",
           "--dockerfile", "notifier/Dockerfile",
           "--context", "dir://notifier"
     ]
@@ -18,7 +18,7 @@ steps:
   - name: "gcr.io/kaniko-project/executor:v1.6.0"
     args: [
           "--cache=true",
-          "--destination=gcr.io/$PROJECT_ID/request-bin-q422:latest",
+          "--destination=gcr.io/$PROJECT_ID/request-bin-q422:$COMMIT_SHA",
           "--dockerfile", "request_bin/Dockerfile",
           "--context", "dir://request_bin"
     ]
@@ -26,7 +26,7 @@ steps:
   - name: "gcr.io/kaniko-project/executor:v1.6.0"
     args: [
           "--cache=true",
-          "--destination=gcr.io/$PROJECT_ID/telegram-service-q422:latest",
+          "--destination=gcr.io/$PROJECT_ID/telegram-service-q422:$COMMIT_SHA",
           "--dockerfile", "telegram/Dockerfile",
           "--context", "dir://telegram"
     ]

@@ -32,7 +32,7 @@ spec:
         - name: {{ .Values.requestbin.name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.requestbin.image.repository }}:{{ .Values.requestbin.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.requestbin.image.repository }}:{{ .Values.commitsh | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.requestbin.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
