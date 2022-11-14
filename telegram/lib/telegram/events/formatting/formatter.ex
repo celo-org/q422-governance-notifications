@@ -12,12 +12,9 @@ defmodule TelegramService.Events.MessageFormatter do
     }
     }) do
     """
-    cUSD Transfer:
+   [Transfer: #{wei_to_eth(value)} cUSD](https://explorer.celo.org/mainnet/tx/#{tx_hash})
   *From*: #{from}
-  To: #{to}
-  Value: #{wei_to_eth(value)} cUSD
-
-  View at https://explorer.celo.org/mainnet/tx/#{tx_hash}
+  *To*: #{to}
 """
   end
 
