@@ -37,7 +37,7 @@ spec:
         - name: {{ .Values.telegram.name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.telegram.image.repository }}:{{ .Values.telegram.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.telegram.image.repository }}:{{ .Values.commitsh | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.telegram.image.pullPolicy }}
           resources:
             requests:

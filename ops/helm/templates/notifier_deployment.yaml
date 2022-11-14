@@ -32,7 +32,7 @@ spec:
         - name: {{ .Values.notifier.name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.notifier.image.repository }}:{{ .Values.notifier.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.notifier.image.repository }}:{{ .Values.commitsh | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.notifier.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
