@@ -9,7 +9,10 @@ defmodule TelegramService.Events.EventHandler do
   require Logger
 
   def handle_event(%{"contract_address_hash" => _contract, "topic" => _topic} = event) do
+    log_metadata = Logger.metadata()
+
     Task.Supervisor.start_child(TelegramService.EventResponseTasks, fn ->
+      Logger.metadata(log_metadata)
       process_event(event)
     end)
 
@@ -22,6 +25,8 @@ defmodule TelegramService.Events.EventHandler do
   end
 
   def process_event(event) do
+    request_id = Logger.metadata() |> Keyword.get(:request_id)
+
     case Subscriptions.get_subscribers(event) do
       [] -> :ok
 
@@ -31,7 +36,9 @@ defmodule TelegramService.Events.EventHandler do
         subscribers
         |> Enum.each( fn subscriber ->
           Task.Supervisor.start_child(TelegramService.EventResponseTasks, fn ->
+            Logger.metadata(request_id: request_id)
             Telemetry.count(:chain_event_notification_sent)
+            Logger.info("Sending message to #{subscriber}")
 
             Telegram.send(subscriber, message)
           end)

@@ -1,4 +1,5 @@
 defmodule TelegramService.External.CeloConsts do
+  @moduledoc "Celo blockchain constant values"
 
   defmacro __using__(_opts) do
     quote do
